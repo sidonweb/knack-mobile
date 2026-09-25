@@ -1,0 +1,26 @@
+import type { Day } from './dates';
+
+export const queryKeys = {
+  me: ['me'] as const,
+  tasks: (day: Day) => ['tasks', day] as const,
+  habits: (day: Day) => ['habits', day] as const,
+  habit: (id: string) => ['habit', id] as const,
+  archivedHabits: ['archived-habits'] as const,
+  summary: (day: Day) => ['summary', day] as const,
+  scores: (from: Day, to: Day) => ['scores', from, to] as const,
+  streaks: ['streaks'] as const,
+  achievements: ['achievements'] as const,
+  profile: (username: string) => ['profile', username] as const,
+  profileAchievements: (username: string) => ['profile-achievements', username] as const,
+  connections: (username: string, direction: 'followers' | 'following') => ['connections', username, direction] as const,
+  inbox: ['inbox'] as const,
+  followRequests: ['follow-requests'] as const,
+  reactions: (activityId: string) => ['reactions', activityId] as const,
+  feed: (userId?: string) => ['feed', userId ?? 'circle'] as const,
+  leaderboard: ['leaderboard'] as const,
+  userSearch: (q: string) => ['user-search', q] as const,
+  challenges: (scope: 'joined' | 'discover') => ['challenges', scope] as const,
+  challenge: (id: string) => ['challenge', id] as const,
+  challengeInvites: ['challenge-invites'] as const,
+  invitable: (id: string) => ['invitable', id] as const,
+};

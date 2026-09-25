@@ -1,14 +1,20 @@
-/**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
- */
+import { useColorScheme } from 'react-native';
 
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { rgb, type ColorScheme, type ColorToken } from '@/lib/theme';
+import { useAppearance } from '@/store/appearance';
 
+export function useColorSchemeResolved(): ColorScheme {
+  const system = useColorScheme();
+  const preference = useAppearance((state) => state.preference);
+  if (preference !== 'system') return preference;
+  return system === 'light' ? 'light' : 'dark';
+}
+
+/** For places that need raw colour values (SVG, icons, navigator options). */
 export function useTheme() {
-  const scheme = useColorScheme();
-  const theme = scheme === 'unspecified' ? 'light' : scheme;
-
-  return Colors[theme];
+  const scheme = useColorSchemeResolved();
+  return {
+    scheme,
+    color: (token: ColorToken, alpha?: number) => rgb(scheme, token, alpha),
+  };
 }

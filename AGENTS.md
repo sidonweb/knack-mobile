@@ -25,7 +25,7 @@ Run lint and typecheck before declaring any task done.
 
 ## Navigation & Routing
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
+- Use **Expo Router** for all navigation. Routes live in `app/` at the project root — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code in `src/` (components, features, hooks, services, store, lib, types).
 - Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
 - Docs: https://docs.expo.dev/router/introduction.md
 
@@ -39,3 +39,11 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## Project conventions
+
+- Server state lives in TanStack Query; Zustand holds client-only state (auth status, sync status, celebrations).
+- Every API response is parsed with the Zod schemas in `src/types/api.ts`. The backend is a separate project; never import from it.
+- Writes to tasks, habits and check-ins go through `commit()` (`src/features/sync/commit.ts`): optimistic update plus the SQLite outbox. Don't call those endpoints directly from UI code.
+- Colours come from tokens in `src/lib/theme.ts` (`bg-surface`, `text-muted`, …), never raw hex in components.
+- With the React Compiler enabled, use Reanimated's `sharedValue.get()` / `.set()`, not `.value`.
