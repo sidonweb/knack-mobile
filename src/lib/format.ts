@@ -12,10 +12,11 @@ export function firstName(displayName: string | undefined | null): string {
   return displayName?.trim().split(/\s+/)[0] ?? '';
 }
 
-/** "July 2026". */
-export function formatMonthYear(day: Day): string {
+/** "July 2026", or "Jul 2026" when `short`. */
+export function formatMonthYear(day: Day, { short = false }: { short?: boolean } = {}): string {
   const date = parseDay(day);
-  return `${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
+  const month = MONTHS[date.getMonth()] ?? '';
+  return `${short ? month.slice(0, 3) : month} ${date.getFullYear()}`;
 }
 
 /** "July". */

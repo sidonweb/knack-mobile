@@ -9,8 +9,28 @@ import { Icon } from '@/components/icon';
 import { ProgressRing } from '@/components/progress-ring';
 import { Text } from '@/components/text';
 import { categoryInfo } from '@/lib/categories';
-import { formatMonthYear, plural } from '@/lib/format';
+import { formatMonthYear } from '@/lib/format';
 import type { Profile } from '@/types/api';
+
+/** A value and its label, for the follower / following / since row. */
+function MetaStat({ value, label, labelFirst = false }: { value: string; label: string; labelFirst?: boolean }) {
+  const valueText = (
+    <Text variant="footnote" className="font-inter-semibold" numberOfLines={1}>
+      {value}
+    </Text>
+  );
+  const labelText = (
+    <Text variant="caption" tone="subtle" numberOfLines={1}>
+      {label}
+    </Text>
+  );
+  return (
+    <View>
+      {labelFirst ? labelText : valueText}
+      {labelFirst ? valueText : labelText}
+    </View>
+  );
+}
 
 function Headline({ value, label, suffix = '', index }: { value: number; label: string; suffix?: string; index: number }) {
   return (
@@ -58,14 +78,7 @@ export function ProfileHero({ profile, action }: Props) {
               {user.isPrivate ? <Icon name="lock-closed" size={11} color="subtle" /> : null}
             </View>
           </View>
-          <ProgressRing progress={consistency?.progress.progress ?? 0} size={58} strokeWidth={5} from="iris" to="sky">
-            <Text variant="overline" tone="subtle" className="text-[8px] leading-[10px]">
-              Level
-            </Text>
-            <Text variant="numeral" className="text-[18px] leading-[20px]">
-              {user.level}
-            </Text>
-          </ProgressRing>
+          
         </View>
 
         {user.bio ? (
@@ -74,7 +87,8 @@ export function ProfileHero({ profile, action }: Props) {
           </Text>
         ) : null}
 
-        <View className="flex-row items-end gap-3">
+        <View className="flex-row justify-between gap-3">
+          <View className="flex-row items-end gap-1">
           <View className="mb-2.5">
             <Icon name="flame" size={30} color={streak > 0 ? 'ember' : 'subtle'} />
           </View>
@@ -93,6 +107,15 @@ export function ProfileHero({ profile, action }: Props) {
               Best {consistency?.longestStreak ?? user.longestStreak}
             </Text>
           </View>
+          </View>
+          <ProgressRing progress={consistency?.progress.progress ?? 0} size={58} strokeWidth={5} from="iris" to="sky">
+            <Text variant="overline" tone="subtle" className="text-[8px] leading-[10px]">
+              Level
+            </Text>
+            <Text variant="numeral" className="text-[18px] leading-[20px]">
+              {user.level}
+            </Text>
+          </ProgressRing>
         </View>
 
         {consistency ? (
@@ -109,40 +132,29 @@ export function ProfileHero({ profile, action }: Props) {
           </View>
         ) : null}
 
-        <View className="flex-row items-center gap-5">
+        <View className="flex-row items-center">
           <Link href={{ pathname: '/connections', params: { username: user.username, tab: 'followers' } }} asChild disabled={!profile.canView}>
-            <Pressable hitSlop={6} accessibilityRole="link">
-              <Text variant="footnote" tone="subtle">
-                <Text variant="footnote" className="font-inter-semibold">
-                  {stats.followers}
-                </Text>{' '}
-                {stats.followers === 1 ? 'follower' : 'followers'}
-              </Text>
+            <Pressable hitSlop={6} accessibilityRole="link" className="flex-1">
+              <MetaStat value={String(stats.followers)} label={stats.followers === 1 ? 'Follower' : 'Followers'} />
             </Pressable>
           </Link>
+          <View className="mx-3 h-8 w-px bg-hairline" />
           <Link href={{ pathname: '/connections', params: { username: user.username, tab: 'following' } }} asChild disabled={!profile.canView}>
-            <Pressable hitSlop={6} accessibilityRole="link">
-              <Text variant="footnote" tone="subtle">
-                <Text variant="footnote" className="font-inter-semibold">
-                  {stats.following}
-                </Text>{' '}
-                following
-              </Text>
+            <Pressable hitSlop={6} accessibilityRole="link" className="flex-1">
+              <MetaStat value={String(stats.following)} label="Following" />
             </Pressable>
           </Link>
           {consistency ? (
-            <Text variant="footnote" tone="subtle" className="flex-1 text-right" numberOfLines={1}>
-              Since {formatMonthYear(consistency.memberSince)}
-            </Text>
+            <>
+              <View className="mx-3 h-8 w-px bg-hairline" />
+              <View className="flex-[1.4]">
+                <MetaStat value={formatMonthYear(consistency.memberSince, { short: true })} label="Since" labelFirst />
+              </View>
+            </>
           ) : null}
         </View>
 
-        {consistency && consistency.qualifyingDays > 0 ? (
-          <Text variant="footnote" tone="muted" className="-mt-2">
-            {plural(consistency.qualifyingDays, 'day')} that counted
-            {profile.followsMe && !profile.isMe ? ' · Follows you' : ''}
-          </Text>
-        ) : profile.followsMe && !profile.isMe ? (
+        {profile.followsMe && !profile.isMe ? (
           <Text variant="footnote" tone="muted" className="-mt-2">
             Follows you
           </Text>

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { KeyboardAvoidingView, Platform, RefreshControl, ScrollView, View } from 'react-native';
+import { KeyboardAvoidingView, RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTabBarInset } from '@/features/navigation/tab-bar-inset';
@@ -36,7 +36,7 @@ export function Screen({ title, eyebrow, right, children, topInset = true, refre
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior="padding"
       className="flex-1 bg-canvas"
       style={{ paddingTop: topInset ? insets.top : 0 }}>
       <ScrollView
@@ -59,7 +59,7 @@ export function Screen({ title, eyebrow, right, children, topInset = true, refre
                 </Text>
               ) : null}
               <Text
-                variant="display"
+                variant="title"
                 accessibilityRole="header"
                 numberOfLines={2}
                 className={compactTitle ? 'text-[28px] leading-[34px] tracking-[-0.6px]' : ''}>
