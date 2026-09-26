@@ -10,7 +10,7 @@ import { ApiError, NetworkError } from './api/errors';
  * Token custody. The access token lives only in memory; the refresh token lives in the
  * OS keychain/keystore. Nothing else in the app touches tokens directly.
  */
-const REFRESH_KEY = 'rally.refreshToken';
+const REFRESH_KEY = 'knack.refreshToken';
 
 let accessToken: string | null = null;
 let refreshInFlight: Promise<Session> | null = null;

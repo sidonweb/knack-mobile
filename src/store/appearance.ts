@@ -6,7 +6,7 @@ import { sqliteAvailable } from '@/lib/db';
 
 export type AppearancePreference = 'system' | 'light' | 'dark';
 
-const KEY = 'rally.appearance';
+const KEY = 'knack.appearance';
 
 function read(): AppearancePreference {
   try {

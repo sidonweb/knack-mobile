@@ -30,7 +30,7 @@ let database: SQLite.SQLiteDatabase | null = null;
 
 export function getDb(): SQLite.SQLiteDatabase {
   if (database) return database;
-  const db = SQLite.openDatabaseSync('rally.db');
+  const db = SQLite.openDatabaseSync('knack.db');
   db.execSync('PRAGMA journal_mode = WAL;');
 
   const version = db.getFirstSync<{ user_version: number }>('PRAGMA user_version')?.user_version ?? 0;

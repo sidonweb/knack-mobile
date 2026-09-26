@@ -30,7 +30,7 @@ export const queryClient = new QueryClient({
 export const queryPersister = createAsyncStoragePersister({
   // kv-store is SQLite-backed (native); web uses localStorage.
   storage: sqliteAvailable ? Storage : globalThis.localStorage,
-  key: 'rally.query-cache.v1',
+  key: 'knack.query-cache.v1',
   throttleTime: 1000,
 });
 

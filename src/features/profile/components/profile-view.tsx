@@ -18,7 +18,7 @@ import { ProofStats } from './proof-stats';
 export function shareProfile(profile: Profile) {
   haptics.tap();
   const { user, consistency } = profile;
-  const lines = [`${user.displayName} on Rally (@${user.username})`];
+  const lines = [`${user.displayName} on Knack (@${user.username})`];
   if (consistency) {
     lines.push(`🔥 ${plural(consistency.currentStreak, 'day')} streak · best ${consistency.longestStreak}`);
     if (consistency.averageScore !== null) lines.push(`📈 ${consistency.averageScore}% average daily score`);

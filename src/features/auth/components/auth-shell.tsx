@@ -11,12 +11,12 @@ type Props = { title: string; subtitle: string; children: ReactNode; footer?: Re
 /** The mark: a flame on an ember tile. Used wherever the brand needs to show up once. */
 function Wordmark() {
   return (
-    <View className="flex-row items-center gap-2.5" accessibilityRole="header" accessibilityLabel="Rally">
+    <View className="flex-row items-center gap-2.5" accessibilityRole="header" accessibilityLabel="Knack">
       <View className="h-9 w-9 items-center justify-center rounded-[11px] bg-ember">
         <Icon name="flame" size={19} colorValue="#fff" />
       </View>
       <Text variant="headline" className="tracking-[-0.3px]">
-        Rally
+        Knack
       </Text>
     </View>
   );

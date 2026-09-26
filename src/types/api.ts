@@ -1,5 +1,5 @@
 /**
- * Response contracts for the Rally REST API. The backend is a separate project, so these
+ * Response contracts for the Knack REST API. The backend is a separate project, so these
  * are deliberately declared here rather than shared; every response is parsed through
  * them, which turns silent contract drift into a loud error at the boundary.
  */

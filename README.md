@@ -1,8 +1,8 @@
-# Rally — mobile
+# Knack — mobile
 
-The Rally app. Expo SDK 57 · React Native 0.86 · TypeScript · Expo Router · NativeWind 4 · Zustand · TanStack Query · Zod · expo-sqlite.
+The Knack app. Expo SDK 57 · React Native 0.86 · TypeScript · Expo Router · NativeWind 4 · Zustand · TanStack Query · Zod · expo-sqlite.
 
-This project is fully independent of the backend. It talks to the Rally API only over REST.
+This project is fully independent of the backend. It talks to the Knack API only over REST.
 
 ## Quick start
 

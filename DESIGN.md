@@ -1,4 +1,4 @@
-# Rally design system
+# Knack design system
 
 Premium, minimal, confident, slightly gamified. Colour and motion are rewards, not decoration.
 

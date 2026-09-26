@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "Rally",
-    "slug": "rally",
+    "name": "Knack",
+    "slug": "knack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "rally",
+    "scheme": "knack",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "bundleIdentifier": "dev.rally.app",
+      "bundleIdentifier": "dev.knack.app",
       "supportsTablet": false
     },
     "android": {
-      "package": "dev.rally.app",
+      "package": "dev.knack.app",
       "adaptiveIcon": {
         "backgroundColor": "#0B0B0D",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -46,6 +46,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "11d0ece7-4a35-4366-a822-e1dc8d75286e"
+      }
+    },
+    "owner": "sidonweb"
   }
 }

@@ -261,7 +261,7 @@ export default function SettingsScreen() {
       <Button label="Sign out" variant="danger" onPress={confirmSignOut} />
 
       <Text variant="caption" tone="subtle" className="text-center">
-        Rally {Constants.expoConfig?.version} · {__DEV__ ? API_URL : 'production'}
+        Knack {Constants.expoConfig?.version} · {__DEV__ ? API_URL : 'production'}
       </Text>
     </Screen>
   );
