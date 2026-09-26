@@ -53,7 +53,7 @@ export default function UserProfileScreen() {
             )
           }>
           {data.canView ? (
-            <View>
+            <View className="gap-3">
               <SectionHeader title="Activity" />
               <FeedList
                 userId={data.user.id}

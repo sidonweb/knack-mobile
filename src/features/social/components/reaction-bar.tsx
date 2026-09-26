@@ -17,7 +17,7 @@ type Props = {
 
 /**
  * Tap to cheer (🔥), hold to pick a different reaction. The summary on the left shows what
- * people reacted with and opens the list of who.
+ * people reacted with and opens the list of who; the cheer button fills the rest.
  */
 export function ReactionBar({ item, onReact, onOpenReactions }: Props) {
   const [picking, setPicking] = useState(false);
@@ -28,6 +28,8 @@ export function ReactionBar({ item, onReact, onOpenReactions }: Props) {
   };
 
   const top = item.reactions.slice(0, 3);
+  // Nothing to press on your own moments; show the row only once someone has reacted.
+  if (item.isMine && item.reactionCount === 0) return null;
 
   return (
     <View className="min-h-[30px] flex-row items-center gap-3">
@@ -54,10 +56,8 @@ export function ReactionBar({ item, onReact, onOpenReactions }: Props) {
         </Pressable>
       ) : null}
 
-      <View className="flex-1" />
-
       {picking ? (
-        <Animated.View entering={FadeIn.duration(120)} exiting={FadeOut.duration(100)} className="flex-row items-center gap-1 rounded-full border border-hairline bg-raised px-1.5 py-1">
+        <Animated.View entering={FadeIn.duration(120)} exiting={FadeOut.duration(100)} className="flex-1 flex-row items-center justify-between gap-1 rounded-full border border-hairline bg-raised px-1.5 py-1">
           {REACTIONS.map((reaction, index) => {
             const mine = item.myReaction === reaction.type;
             return (
@@ -88,7 +88,7 @@ export function ReactionBar({ item, onReact, onOpenReactions }: Props) {
           accessibilityState={{ selected: item.myReaction !== null }}
           accessibilityLabel={item.myReaction ? 'Remove reaction' : 'Cheer'}
           accessibilityHint="Hold to choose a reaction"
-          className={`flex-row items-center gap-1.5 rounded-full px-3 py-1.5 ${item.myReaction ? 'bg-ember/[0.12]' : 'bg-fg/[0.04]'}`}>
+          className={`flex-1 flex-row items-center justify-center gap-1.5 rounded-xl py-2.5 ${item.myReaction ? 'bg-ember/[0.12]' : 'bg-fg/[0.04]'}`}>
           <View>
             {item.myReaction ? (
               <Text className="text-[15px] leading-[18px]">{emojiFor(item.myReaction)}</Text>

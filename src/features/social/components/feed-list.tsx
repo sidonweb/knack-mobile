@@ -31,24 +31,22 @@ export function FeedList({ userId, enabled = true, empty }: Props) {
     react.mutate({ activityId: item.id, type, previous: item.myReaction });
 
   return (
-    <View>
+    <View className="gap-3">
       {feed.isLoading && enabled ? <SkeletonRows count={3} avatar inset={false} /> : null}
       {feed.isError && entries.length === 0 ? (
         <ErrorState compact title="Couldn’t load activity" error={feed.error} onRetry={() => void feed.refetch()} />
       ) : null}
       {entries.length === 0 && !feed.isLoading && !feed.isError && enabled ? <EmptyState {...empty} /> : null}
-      {entries.map((entry, index) => {
+      {entries.map((entry) => {
         const key = entry.kind === 'achievements' ? entry.lead.id : entry.item.id;
         return (
-          <View key={key}>
-            {index > 0 ? <View className="absolute left-0 right-0 top-0 h-px bg-hairline" /> : null}
-            <FeedItem
-              entry={entry}
-              onReact={onReact}
-              onOpenReactions={(item) => setReactionsFor(item.id)}
-              onToggleHidden={(item) => hide.mutate({ activityId: item.id, hidden: !item.hidden })}
-            />
-          </View>
+          <FeedItem
+            key={key}
+            entry={entry}
+            onReact={onReact}
+            onOpenReactions={(item) => setReactionsFor(item.id)}
+            onToggleHidden={(item) => hide.mutate({ activityId: item.id, hidden: !item.hidden })}
+          />
         );
       })}
       {feed.hasNextPage ? (

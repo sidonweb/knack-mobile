@@ -4,9 +4,11 @@ import { Alert, Pressable, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { Avatar } from '@/components/avatar';
+import { Card } from '@/components/card';
 import { Icon, safeIconName, type IconName } from '@/components/icon';
 import { ProgressBar } from '@/components/progress-bar';
 import { Text } from '@/components/text';
+import { useTheme } from '@/hooks/use-theme';
 import { AchievementBadge } from '@/features/profile/components/achievement-badge';
 import { categoryInfo } from '@/lib/categories';
 import { timeAgo } from '@/lib/dates';
@@ -36,7 +38,7 @@ function describe(item: FeedItemType): { icon: IconName; tint: ColorToken; text:
     case 'PERFECT_DAY':
       return { icon: 'checkmark-done', tint: 'mint', text: <>had a <Bold>perfect day</Bold></> };
     case 'PERFECT_WEEK':
-      return { icon: 'star', tint: 'sky', text: <>had a <Bold>Perfect Week</Bold>, seven for seven</> };
+      return { icon: 'star', tint: 'sky', text: <>had a <Bold>Perfect Week</Bold></> };
     case 'STREAK_MILESTONE':
       return { icon: 'flame', tint: 'ember', text: <>reached a <Bold>{data.days} day streak</Bold></> };
     case 'HABIT_STREAK': {
@@ -65,13 +67,27 @@ function describe(item: FeedItemType): { icon: IconName; tint: ColorToken; text:
   }
 }
 
+/** A tinted strip that restates the moment at a glance. */
+function Highlight({ icon, tint, children }: { icon: IconName; tint: 'mint' | 'sky' | 'ember' | 'iris' | 'amber'; children: ReactNode }) {
+  const { color } = useTheme();
+  return (
+    <View className="flex-row items-center gap-2 rounded-xl px-3 py-2.5" style={{ backgroundColor: color(tint, 0.1) }}>
+      <Icon name={icon} size={16} color={tint} />
+      <Text variant="footnote" tone={tint} className="font-inter-medium">
+        {children}
+      </Text>
+    </View>
+  );
+}
+
 /** A glanceable detail under the sentence for the moments that carry numbers. */
 function Detail({ item, entry }: { item: FeedItemType; entry: FeedEntry }) {
   const data = item.data as Data;
-  if (entry.kind === 'achievements') {
+  const unlocks = entry.kind === 'achievements' ? entry.items : item.type === 'ACHIEVEMENT_UNLOCKED' ? [item] : [];
+  if (unlocks.length > 0) {
     return (
       <View className="flex-row flex-wrap gap-2">
-        {entry.items.slice(0, 6).map((achievement) => {
+        {unlocks.slice(0, 6).map((achievement) => {
           const detail = achievement.data as Data;
           return (
             <View key={achievement.id} className="flex-row items-center gap-1.5 rounded-full bg-raised py-1 pl-1 pr-2.5">
@@ -82,9 +98,9 @@ function Detail({ item, entry }: { item: FeedItemType; entry: FeedEntry }) {
             </View>
           );
         })}
-        {entry.items.length > 6 ? (
+        {unlocks.length > 6 ? (
           <Text variant="footnote" tone="subtle" className="self-center">
-            +{entry.items.length - 6} more
+            +{unlocks.length - 6} more
           </Text>
         ) : null}
       </View>
@@ -103,8 +119,16 @@ function Detail({ item, entry }: { item: FeedItemType; entry: FeedEntry }) {
       </View>
     );
   }
+  if (item.type === 'PERFECT_DAY') return <Highlight icon="checkmark-circle" tint="mint">Everything planned, done</Highlight>;
+  if (item.type === 'PERFECT_WEEK') return <Highlight icon="star" tint="sky">Seven perfect days in a row</Highlight>;
   return null;
 }
+
+/** "17h ago"; "now" and dates stay as they are. */
+const ago = (iso: string) => {
+  const relative = timeAgo(iso);
+  return /^\d+[mhd]$/.test(relative) ? `${relative} ago` : relative;
+};
 
 type Props = {
   entry: FeedEntry;
@@ -132,47 +156,53 @@ export function FeedItem({ entry, onReact, onOpenReactions, onToggleHidden }: Pr
   const challengeLink = item.challengeId && (item.type === 'CHALLENGE_JOINED' || item.type === 'CHALLENGE_COMPLETED');
 
   return (
-    <Animated.View entering={FadeIn.duration(220)} className={`flex-row gap-3.5 py-4 ${item.hidden ? 'opacity-60' : ''}`}>
-      <Link href={{ pathname: '/users/[username]', params: { username: item.user.username } }} asChild>
-        <Pressable accessibilityRole="link" accessibilityLabel={`${item.user.displayName}'s profile`}>
-          <Avatar name={item.user.displayName} url={item.user.avatarUrl} size={40} />
-        </Pressable>
-      </Link>
-      <View className="flex-1 gap-2.5">
-        <Pressable
-          disabled={!challengeLink}
-          onPress={() => item.challengeId && router.push({ pathname: '/challenges/[id]', params: { id: item.challengeId } })}
-          className="gap-1">
-          <Text variant="body">
-            <Bold>{item.isMine ? 'You' : item.user.displayName}</Bold> <Text tone="muted">{text}</Text>
-          </Text>
-          <View className="flex-row items-center gap-1.5">
-            <Icon name={entry.kind === 'achievements' ? 'ribbon' : described.icon} size={13} color={entry.kind === 'achievements' ? 'amber' : described.tint} />
-            <Text variant="footnote" tone="subtle">
-              {timeAgo(item.createdAt)}
-            </Text>
-            {item.hidden ? (
-              <View className="ml-1 flex-row items-center gap-1 rounded-full bg-fg/[0.06] px-2 py-0.5">
-                <Icon name="eye-off-outline" size={11} color="subtle" />
-                <Text variant="caption" tone="subtle">
-                  Hidden
+    <Animated.View entering={FadeIn.duration(220)} className={item.hidden ? 'opacity-60' : ''}>
+      <Card padded={false} className="flex-row gap-3.5 p-4">
+        <Link href={{ pathname: '/users/[username]', params: { username: item.user.username } }} asChild>
+          <Pressable accessibilityRole="link" accessibilityLabel={`${item.user.displayName}'s profile`}>
+            <Avatar name={item.user.displayName} url={item.user.avatarUrl} size={40} />
+          </Pressable>
+        </Link>
+        <View className="flex-1 gap-3">
+          <View className="flex-row items-start gap-2">
+            <Pressable
+              disabled={!challengeLink}
+              onPress={() => item.challengeId && router.push({ pathname: '/challenges/[id]', params: { id: item.challengeId } })}
+              className="flex-1 gap-1">
+              <Text variant="body">
+                <Bold>{item.isMine ? 'You' : item.user.displayName}</Bold> <Text tone="muted">{text}</Text>
+              </Text>
+              <View className="flex-row items-center gap-1.5">
+                <Icon name={entry.kind === 'achievements' ? 'ribbon' : described.icon} size={13} color={entry.kind === 'achievements' ? 'amber' : described.tint} />
+                <Text variant="footnote" tone="subtle">
+                  {ago(item.createdAt)}
                 </Text>
+                {item.hidden ? (
+                  <View className="ml-1 flex-row items-center gap-1 rounded-full bg-fg/[0.06] px-2 py-0.5">
+                    <Icon name="eye-off-outline" size={11} color="subtle" />
+                    <Text variant="caption" tone="subtle">
+                      Hidden
+                    </Text>
+                  </View>
+                ) : null}
               </View>
+            </Pressable>
+            {item.isMine ? (
+              <Pressable
+                onPress={openMenu}
+                hitSlop={10}
+                accessibilityLabel="Activity options"
+                className="-mr-1 -mt-0.5 h-8 w-8 items-center justify-center rounded-full bg-fg/[0.04]">
+                <Icon name="ellipsis-horizontal" size={16} color="subtle" />
+              </Pressable>
+            ) : challengeLink ? (
+              <Icon name="chevron-forward" size={16} color="subtle" />
             ) : null}
           </View>
-        </Pressable>
-        <Detail item={item} entry={entry} />
-        <View className="flex-row items-center gap-2">
-          <View className="flex-1">
-            <ReactionBar item={item} onReact={(type) => onReact(item, type)} onOpenReactions={() => onOpenReactions(item)} />
-          </View>
-          {item.isMine ? (
-            <Pressable onPress={openMenu} hitSlop={10} accessibilityLabel="Activity options" className="h-8 w-8 items-center justify-center">
-              <Icon name="ellipsis-horizontal" size={16} color="subtle" />
-            </Pressable>
-          ) : null}
+          <Detail item={item} entry={entry} />
+          <ReactionBar item={item} onReact={(type) => onReact(item, type)} onOpenReactions={() => onOpenReactions(item)} />
         </View>
-      </View>
+      </Card>
     </Animated.View>
   );
 }

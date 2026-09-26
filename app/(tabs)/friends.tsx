@@ -103,7 +103,7 @@ export default function FriendsScreen() {
 
           {leaderboard.data ? <LeaderboardCard leaderboard={leaderboard.data} /> : null}
 
-          <View className="gap-1">
+          <View className="gap-3">
             <SectionHeader title="Activity" />
             <FeedList
               empty={{
