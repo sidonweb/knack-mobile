@@ -4,6 +4,7 @@ import { Alert, Pressable, ScrollView, Switch, View } from 'react-native';
 import Animated, { Easing, FadeIn, FadeInDown, FadeInUp, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AnimatedView } from '@/components/animated-view';
 import { AnimatedNumber } from '@/components/animated-number';
 import { Button } from '@/components/button';
 import { Confetti } from '@/components/confetti';
@@ -93,13 +94,13 @@ function StreakCard({ streak, isToday, restDaysLeft, onRest, resting }: {
       <View className="flex-row items-center gap-4">
         <View
           className={`h-14 w-14 items-center justify-center rounded-full ${streak.secured ? 'bg-ember/15' : streak.resting ? 'bg-sky/15' : 'bg-raised'}`}>
-          <Animated.View style={flameStyle}>
+          <AnimatedView style={flameStyle}>
             <Icon
               name={streak.resting && !streak.secured ? 'moon' : 'flame'}
               size={28}
               color={streak.secured ? 'ember' : streak.resting ? 'sky' : 'subtle'}
             />
-          </Animated.View>
+          </AnimatedView>
         </View>
         <View className="flex-1 gap-0.5">
           {streak.secured ? (

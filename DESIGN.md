@@ -16,6 +16,8 @@ Premium, minimal, confident, slightly gamified. Colour and motion are rewards, n
 
 Appearance: System / Light / Dark in Settings (`src/store/appearance.ts`). Always read colours through `useTheme()` or Tailwind tokens, never `useColorScheme()` directly.
 
+**Animated styles:** anything driven by `useAnimatedStyle` must render in `AnimatedView` (`src/components/animated-view.tsx`), never `Animated.View`. The NativeWind-registered `Animated.View` silently drops animated styles. Use `Animated.View` only for `entering`/`exiting` with classes.
+
 `motion` in `theme.ts` holds the timing vocabulary. No springs, bounces or overshoot anywhere: everything uses short ease-out timings. Reanimated honours Reduce Motion; `Confetti`, `AnimatedNumber`, `Skeleton` and `UnlockOverlay` also check it themselves.
 
 ## Type — `<Text variant>`

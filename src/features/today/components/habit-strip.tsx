@@ -29,7 +29,6 @@ function HabitTile({ habit, onCheckIn, onOpen }: { habit: HabitDay; onCheckIn: (
       <PressableScale
         onPress={onCheckIn}
         onLongPress={onOpen}
-        scaleTo={0.94}
         accessibilityRole="checkbox"
         accessibilityState={{ checked: habit.completed }}
         accessibilityHint="Double tap to check in. Long press for details."

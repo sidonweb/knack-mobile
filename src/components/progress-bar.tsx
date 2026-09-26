@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
+import { Easing, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 
 import { useTheme } from '@/hooks/use-theme';
 import type { ColorToken } from '@/lib/theme';
+
+import { AnimatedView } from './animated-view';
 
 type Props = {
   /** 0–1 */
@@ -56,7 +58,7 @@ export function ProgressBar({ progress, color = 'iris', height = 6, wraps }: Pro
       accessibilityRole="progressbar"
       accessibilityValue={{ min: 0, max: 100, now: Math.round(clamp(progress) * 100) }}>
       {width > 0 ? (
-        <Animated.View style={[{ width, height, borderRadius: height / 2, backgroundColor: theme.color(color) }, fill]} />
+        <AnimatedView style={[{ width, height, borderRadius: height / 2, backgroundColor: theme.color(color) }, fill]} />
       ) : null}
     </View>
   );

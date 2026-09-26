@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
-import Animated, {
+import {
   Easing,
   useAnimatedStyle,
   useReducedMotion,
@@ -11,6 +11,8 @@ import Animated, {
 
 import { useTheme } from '@/hooks/use-theme';
 import type { ColorToken } from '@/lib/theme';
+
+import { AnimatedView } from './animated-view';
 
 const DEFAULT_TINTS: ColorToken[] = ['mint', 'sky', 'amber'];
 
@@ -58,7 +60,7 @@ function Piece({ spec, fall }: { spec: PieceSpec; fall: number }) {
   });
 
   return (
-    <Animated.View
+    <AnimatedView
       style={[{ position: 'absolute', width: spec.width, height: spec.height, borderRadius: 1.5, backgroundColor: spec.tint }, style]}
     />
   );

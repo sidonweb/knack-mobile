@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { View, type DimensionValue } from 'react-native';
-import Animated, {
+import {
   Easing,
   useAnimatedStyle,
   useReducedMotion,
@@ -9,10 +9,15 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-type Props = { width?: DimensionValue; height?: number; radius?: number; className?: string };
+import { useTheme } from '@/hooks/use-theme';
+
+import { AnimatedView } from './animated-view';
+
+type Props = { width?: DimensionValue; height?: number; radius?: number };
 
 /** A placeholder block that breathes gently while content loads. Static under Reduce Motion. */
-export function Skeleton({ width = '100%', height = 14, radius = 6, className = '' }: Props) {
+export function Skeleton({ width = '100%', height = 14, radius = 6 }: Props) {
+  const { color } = useTheme();
   const reduced = useReducedMotion();
   const opacity = useSharedValue(0.55);
 
@@ -23,9 +28,8 @@ export function Skeleton({ width = '100%', height = 14, radius = 6, className = 
 
   const style = useAnimatedStyle(() => ({ opacity: opacity.get() }));
   return (
-    <Animated.View
-      style={[{ width, height, borderRadius: radius }, style]}
-      className={`bg-fg/[0.07] ${className}`}
+    <AnimatedView
+      style={[{ width, height, borderRadius: radius, backgroundColor: color('fg', 0.07) }, style]}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
     />

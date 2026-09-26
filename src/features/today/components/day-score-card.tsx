@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import Animated, {
+import {
   Easing,
   interpolate,
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { AnimatedView } from '@/components/animated-view';
 import { AnimatedNumber } from '@/components/animated-number';
 import { Card } from '@/components/card';
 import { ProgressBar } from '@/components/progress-bar';
@@ -46,7 +47,7 @@ function CompletionBurst({ score, tint }: { score: number; tint: string }) {
     transform: [{ scale: interpolate(t.get(), [0, 1], [1, 1.2]) }],
   }));
   return (
-    <Animated.View
+    <AnimatedView
       style={[
         { position: 'absolute', width: RING, height: RING, borderRadius: RING / 2, borderWidth: STROKE / 2, borderColor: tint, pointerEvents: 'none' },
         style,

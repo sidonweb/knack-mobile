@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { AnimatedView } from '@/components/animated-view';
 import { useTheme } from '@/hooks/use-theme';
 import { haptics } from '@/lib/haptics';
 import { TASK_XP, TASK_XP_CAP } from '@/lib/scoring';
@@ -143,14 +144,14 @@ function DraggableRow({ task, xp, divider, base, order, heights, dragging, dragY
 
   return (
     <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(150)}>
-      <Animated.View style={style}>
+      <AnimatedView style={style}>
         <GestureDetector gesture={pan}>
           <View onLayout={measure} className="rounded-2xl px-5" style={{ backgroundColor: color('surface') }}>
             {divider ? <View className="absolute left-5 right-5 top-0 h-px bg-hairline" /> : null}
             <TaskRow task={task} xp={xp} onToggle={onToggle} onOpen={onOpen} onMore={onMore} />
           </View>
         </GestureDetector>
-      </Animated.View>
+      </AnimatedView>
     </Animated.View>
   );
 }

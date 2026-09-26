@@ -130,7 +130,12 @@ function Form({ habit }: { habit?: Habit }) {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-canvas">
-      <ModalHeader title={habit ? 'Edit habit' : 'New habit'} onCancel={() => router.back()} />
+      <ModalHeader
+        title={habit ? 'Edit habit' : 'New habit'}
+        onCancel={() => router.back()}
+        action={{ label: habit ? 'Save' : 'Add', onPress: save }}
+        fullScreen
+      />
 
       <ScrollView contentContainerClassName="gap-7 px-5 pb-6 pt-4" keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <TextField
@@ -298,7 +303,7 @@ export default function HabitEditorScreen() {
   if (id && !habit) {
     return (
       <View className="flex-1 bg-canvas">
-        <ModalHeader title="Edit habit" onCancel={() => router.back()} />
+        <ModalHeader title="Edit habit" onCancel={() => router.back()} fullScreen />
         {detail.isError ? (
           <ErrorState title="Couldn’t load this habit" error={detail.error} onRetry={() => void detail.refetch()} />
         ) : (

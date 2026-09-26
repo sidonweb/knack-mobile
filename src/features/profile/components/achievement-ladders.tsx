@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, LinearTransition, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
+import { AnimatedView } from '@/components/animated-view';
 import { Card } from '@/components/card';
 import { Icon } from '@/components/icon';
 import { ProgressBar } from '@/components/progress-bar';
@@ -121,9 +122,9 @@ function Ladder({ family, rungs, index }: { family: string; rungs: AchievementWi
               </Text>
             )}
           </View>
-          <Animated.View style={chevron}>
+          <AnimatedView style={chevron}>
             <Icon name="chevron-forward" size={16} color="subtle" />
-          </Animated.View>
+          </AnimatedView>
         </Pressable>
         {open ? (
           <Animated.View entering={FadeIn.duration(180)} className="border-t border-hairline pt-1">

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Alert, Pressable, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 
+import { AnimatedView } from '@/components/animated-view';
 import { AnimatedNumber } from '@/components/animated-number';
 import { Avatar } from '@/components/avatar';
 import { Button } from '@/components/button';
@@ -91,16 +92,25 @@ function PodiumColumn({ entry, height, delay, ended }: { entry: Entry; height: n
       <Text variant="footnote" numberOfLines={1} className="font-inter-medium">
         {entry.isMe ? 'You' : firstName(entry.user.displayName)}
       </Text>
-      <Animated.View
-        style={[{ width: '100%', borderTopLeftRadius: 14, borderTopRightRadius: 14, backgroundColor: color(first ? 'amber' : 'fg', first ? 0.18 : 0.06) }, style]}
-        className="items-center pt-2">
+      <AnimatedView
+        style={[
+          {
+            width: '100%',
+            alignItems: 'center',
+            paddingTop: 8,
+            borderTopLeftRadius: 14,
+            borderTopRightRadius: 14,
+            backgroundColor: color(first ? 'amber' : 'fg', first ? 0.18 : 0.06),
+          },
+          style,
+        ]}>
         <Text variant="numeral" tone={first ? 'default' : 'muted'} className="text-[18px]">
           {entry.progress}
         </Text>
         <Text variant="overline" tone="subtle">
           #{entry.rank}
         </Text>
-      </Animated.View>
+      </AnimatedView>
     </View>
   );
 }

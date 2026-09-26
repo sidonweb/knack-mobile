@@ -5,6 +5,7 @@ import Animated, { Easing, FadeIn, FadeInDown, FadeOut, useAnimatedStyle, useRed
 import { useTheme } from '@/hooks/use-theme';
 import type { ColorToken } from '@/lib/theme';
 
+import { AnimatedView } from './animated-view';
 import { Button } from './button';
 import { Confetti } from './confetti';
 import type { IconName } from './icon';
@@ -37,7 +38,7 @@ function Pulse({ tint }: { tint: string }) {
     transform: [{ scale: 0.9 + t.get() * 1.1 }],
   }));
   return (
-    <Animated.View
+    <AnimatedView
       style={[{ position: 'absolute', width: MEDAL, height: MEDAL, borderRadius: MEDAL / 2, borderWidth: 2, borderColor: tint }, style]}
     />
   );
@@ -57,7 +58,7 @@ function Spark({ angle, distance, tint, delay }: { angle: number; distance: numb
       { scale: 1 - t.get() * 0.5 },
     ],
   }));
-  return <Animated.View style={[{ position: 'absolute', width: 5, height: 5, borderRadius: 3, backgroundColor: tint }, style]} />;
+  return <AnimatedView style={[{ position: 'absolute', width: 5, height: 5, borderRadius: 3, backgroundColor: tint }, style]} />;
 }
 
 function Reveal({ content, reduced }: { content: UnlockContent; reduced: boolean }) {
@@ -97,12 +98,12 @@ function Reveal({ content, reduced }: { content: UnlockContent; reduced: boolean
           ))}
         </>
       )}
-      <Animated.View style={[{ width: MEDAL, height: MEDAL, borderRadius: MEDAL / 2, overflow: 'hidden' }, medalStyle]}>
+      <AnimatedView style={[{ width: MEDAL, height: MEDAL, borderRadius: MEDAL / 2, overflow: 'hidden' }, medalStyle]}>
         <Medal icon={content.icon} tint={content.tint} size={MEDAL} />
-        <Animated.View
+        <AnimatedView
           style={[{ position: 'absolute', top: -20, bottom: -20, width: 28, backgroundColor: 'rgba(255,255,255,0.3)' }, shineStyle]}
         />
-      </Animated.View>
+      </AnimatedView>
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import Animated, {
+import {
   Easing,
   interpolate,
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { AnimatedView } from '@/components/animated-view';
 import { Icon } from '@/components/icon';
 import { useTheme } from '@/hooks/use-theme';
 import type { ColorToken } from '@/lib/theme';
@@ -53,16 +54,16 @@ export function CheckCircle({ checked, tint = 'mint', size = 24 }: Props) {
 
   return (
     <View style={circle}>
-      <Animated.View
+      <AnimatedView
         style={[circle, { position: 'absolute', borderWidth: 2, borderColor: color(tint), pointerEvents: 'none' }, burstStyle]}
       />
       <View style={[circle, { position: 'absolute', borderWidth: 1.5, borderColor: color('subtle') }]} />
-      <Animated.View
+      <AnimatedView
         style={[circle, { position: 'absolute', backgroundColor: color(tint), alignItems: 'center', justifyContent: 'center' }, fillStyle]}>
-        <Animated.View style={markStyle}>
+        <AnimatedView style={markStyle}>
           <Icon name="checkmark" size={size * 0.64} colorValue={color('canvas')} />
-        </Animated.View>
-      </Animated.View>
+        </AnimatedView>
+      </AnimatedView>
     </View>
   );
 }
