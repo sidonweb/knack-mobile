@@ -56,7 +56,8 @@ export function HabitStatsList({ habits }: { habits: HabitStats[] }) {
   return (
     <Card padded={false} className="px-5 py-1">
       {habits.map((habit, index) => (
-        <View key={habit.id} className={index > 0 ? 'border-t border-hairline' : ''}>
+        <View key={habit.id}>
+          {index > 0 ? <View className="absolute left-0 right-0 top-0 h-px bg-hairline" /> : null}
           <HabitRow habit={habit} index={index} />
         </View>
       ))}

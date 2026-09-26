@@ -59,9 +59,10 @@ function CompletionBurst({ score, tint }: { score: number; tint: string }) {
 function StatRow({ label, value, tone = 'default', divider }: { label: string; value: string; tone?: TextTone; divider?: boolean }) {
   return (
     <View
-      className={`flex-row items-baseline justify-between py-2.5 ${divider ? 'border-t border-gray-200' : ''}`}
+      className="flex-row items-baseline justify-between py-2.5"
       accessible
       accessibilityLabel={`${label} ${value}`}>
+      {divider ? <View className="absolute left-0 right-0 top-0 h-px bg-hairline" /> : null}
       <Text variant="footnote" tone="muted">
         {label}
       </Text>
@@ -94,7 +95,7 @@ export function DayScoreCard({ progress, streak, summary, isToday }: Props) {
               <AnimatedNumber
                 variant="hero"
                 value={progress.score}
-                className="text-[40px] leading-[48px] tracking-[-1.5px]"
+                className="text-[36px] leading-[40px] tracking-[-1.5px]"
                 accessibilityLabel={`Day score ${progress.score} out of 100`}
               />
               <Text variant="overline" tone="subtle" className="text-[10px] text-center">

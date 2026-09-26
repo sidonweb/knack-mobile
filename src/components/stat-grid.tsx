@@ -60,12 +60,12 @@ export function StatGrid({ stats, animate = true }: { stats: Stat[]; animate?: b
 
   return (
     <Animated.View entering={FadeIn.duration(250)}>
-      <Card padded={false}>
+      <Card padded={false} className="overflow-hidden">
         {rows.map((row, rowIndex) => (
           <View key={row[0]!.label} className={`flex-row ${rowIndex > 0 ? 'border-t border-hairline' : ''}`}>
             <Cell stat={row[0]!} index={rowIndex * 2} animate={animate} />
             <View className="w-px bg-hairline" />
-            {row[1] ? <Cell stat={row[1]} index={rowIndex * 2 + 1} animate={animate} /> : <View className="flex-1" />}
+            {row[1] ? <Cell stat={row[1]} index={rowIndex * 2 + 1} animate={animate} /> : <View className="flex-1 px-5" />}
           </View>
         ))}
       </Card>

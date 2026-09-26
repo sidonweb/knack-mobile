@@ -52,7 +52,7 @@ export default function FriendsScreen() {
         value={query}
         onChangeText={setQuery}
         accessibilityLabel="Search people"
-        placeholder="Find people by name or @username"
+        placeholder="Search by name or @username"
         autoCapitalize="none"
         autoCorrect={false}
         returnKeyType="search"

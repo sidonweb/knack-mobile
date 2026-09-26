@@ -40,7 +40,8 @@ export function FeedList({ userId, enabled = true, empty }: Props) {
       {entries.map((entry, index) => {
         const key = entry.kind === 'achievements' ? entry.lead.id : entry.item.id;
         return (
-          <View key={key} className={index > 0 ? 'border-t border-gray-200' : ''}>
+          <View key={key}>
+            {index > 0 ? <View className="absolute left-0 right-0 top-0 h-px bg-hairline" /> : null}
             <FeedItem
               entry={entry}
               onReact={onReact}

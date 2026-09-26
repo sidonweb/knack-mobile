@@ -96,7 +96,9 @@ export function ProfileHero({ profile, action }: Props) {
         </View>
 
         {consistency ? (
-          <View className="flex-row gap-3 border-t border-hairline pt-4">
+          <View className="flex-row gap-3 py-4">
+            <View className="absolute left-0 right-0 top-0 h-px bg-hairline" />
+            <View className="absolute bottom-0 left-0 right-0 h-px bg-hairline" />
             <Headline index={0} value={consistency.averageScore ?? 0} suffix="%" label="Average score" />
             <Headline index={1} value={consistency.tasksCompleted} label="Tasks done" />
             {topCategory ? (
