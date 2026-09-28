@@ -2,7 +2,7 @@
   "expo": {
     "name": "Knack",
     "slug": "knack",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "knack",
@@ -14,7 +14,7 @@
     "android": {
       "package": "dev.knack.app",
       "adaptiveIcon": {
-        "backgroundColor": "#0B0B0D",
+        "backgroundColor": "#E84416",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -40,6 +40,12 @@
           "dark": {
             "backgroundColor": "#0B0B0D"
           }
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.815831613615-rpqqf5ei29jt0b4604qhi1ll8rtgqoem"
         }
       ]
     ],

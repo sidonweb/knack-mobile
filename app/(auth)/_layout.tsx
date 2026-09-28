@@ -6,6 +6,7 @@ export default function AuthLayout() {
       {/* First screen is where protected routes send signed-out users. */}
       <Stack.Screen name="sign-in" />
       <Stack.Screen name="sign-up" />
+      <Stack.Screen name="forgot-password" options={{ animation: 'slide_from_right' }} />
     </Stack>
   );
 }

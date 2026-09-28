@@ -32,6 +32,10 @@ export const meSchema = publicUserSchema.extend({
   email: z.string(),
   timezone: z.string(),
   shareActivity: z.boolean(),
+  // Defaults keep older API versions parseable.
+  hasPassword: z.boolean().default(true),
+  /** When the username can next be changed; null means now. */
+  usernameChangeAvailableAt: isoDateTime.nullable().default(null),
   progress: levelProgressSchema,
   createdAt: isoDateTime,
 });

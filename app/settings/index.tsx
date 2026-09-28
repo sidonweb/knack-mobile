@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { Link } from 'expo-router';
+import { Link, type Href } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Switch, View } from 'react-native';
 
@@ -166,16 +166,34 @@ function AppearanceSection() {
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <View className="min-h-14 flex-row items-center justify-between px-5 py-3" accessible accessibilityLabel={`${label}: ${value}`}>
+function Row({ label, value, href }: { label: string; value: string; href?: Href }) {
+  const content = (
+    <>
       <Text variant="body" tone="muted">
         {label}
       </Text>
-      <Text variant="body" numberOfLines={1} className="ml-4 flex-shrink">
-        {value}
-      </Text>
-    </View>
+      <View className="ml-4 flex-shrink flex-row items-center gap-2">
+        <Text variant="body" numberOfLines={1} className="flex-shrink">
+          {value}
+        </Text>
+        {href ? <Icon name="chevron-forward" size={16} color="subtle" /> : null}
+      </View>
+    </>
+  );
+  const className = 'min-h-14 flex-row items-center justify-between px-5 py-3';
+  if (!href) {
+    return (
+      <View className={className} accessible accessibilityLabel={`${label}: ${value}`}>
+        {content}
+      </View>
+    );
+  }
+  return (
+    <Link href={href} asChild>
+      <Pressable accessibilityRole="button" accessibilityLabel={`${label}: ${value}`} className={`${className} active:opacity-60`}>
+        {content}
+      </Pressable>
+    </Link>
   );
 }
 
@@ -242,7 +260,7 @@ export default function SettingsScreen() {
           <View className="gap-3">
             <SectionHeader title="Account" />
             <Card padded={false}>
-              <Row label="Username" value={`@${me.data.username}`} />
+              <Row label="Username" value={`@${me.data.username}`} href="/settings/username" />
               <Divider />
               <Row label="Email" value={me.data.email} />
               <Divider />
@@ -259,6 +277,15 @@ export default function SettingsScreen() {
       <AppearanceSection />
 
       <Button label="Sign out" variant="danger" onPress={confirmSignOut} />
+      {me.data ? (
+        <Link href="/settings/delete-account" asChild>
+          <Pressable accessibilityRole="button" className="-mt-2 min-h-11 items-center justify-center active:opacity-60">
+            <Text variant="callout" tone="subtle">
+              Delete account
+            </Text>
+          </Pressable>
+        </Link>
+      ) : null}
 
       <Text variant="caption" tone="subtle" className="text-center">
         Knack {Constants.expoConfig?.version} · {__DEV__ ? API_URL : 'production'}

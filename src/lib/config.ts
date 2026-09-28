@@ -18,3 +18,12 @@ function resolveApiUrl(): string {
 }
 
 export const API_URL = resolveApiUrl();
+
+/**
+ * Google OAuth *Web* client ID. Google issues the app's ID tokens for this audience, and the
+ * backend verifies against it. Android is matched by package name + signing SHA-1 instead.
+ * Not a secret.
+ */
+export const GOOGLE_WEB_CLIENT_ID =
+  process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ??
+  '815831613615-rpqqf5ei29jt0b4604qhi1ll8rtgqoem.apps.googleusercontent.com';

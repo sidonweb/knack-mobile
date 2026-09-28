@@ -7,6 +7,7 @@ import { Button } from '@/components/button';
 import { Text } from '@/components/text';
 import { TextField } from '@/components/text-field';
 import { AuthShell } from '@/features/auth/components/auth-shell';
+import { GoogleSignIn } from '@/features/auth/components/google-sign-in';
 import { haptics } from '@/lib/haptics';
 import { errorMessage } from '@/services/api/errors';
 import { useAuth } from '@/store/auth';
@@ -80,12 +81,20 @@ export default function SignInScreen() {
         onSubmitEditing={submit}
         error={errors.password}
       />
+      <Link href={{ pathname: '/forgot-password', params: { email: form.identifier.trim() } }} asChild>
+        <Pressable accessibilityRole="link" hitSlop={8} className="-mt-1 self-end">
+          <Text variant="footnote" tone="muted">
+            Forgot password?
+          </Text>
+        </Pressable>
+      </Link>
       {errors.form ? (
         <Text variant="footnote" tone="rose" accessibilityLiveRegion="polite">
           {errors.form}
         </Text>
       ) : null}
       <Button label="Sign in" onPress={submit} loading={submitting} className="mt-2" />
+      <GoogleSignIn />
     </AuthShell>
   );
 }

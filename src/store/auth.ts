@@ -22,6 +22,11 @@ type AuthState = {
   bootstrap: () => Promise<void>;
   signIn: (identifier: string, password: string) => Promise<void>;
   signUp: (input: Parameters<typeof authService.signUp>[0]) => Promise<void>;
+  /** Resolves false when the user cancels the Google account picker. */
+  signInWithGoogle: () => Promise<boolean>;
+  resetPassword: (input: Parameters<typeof authService.resetPassword>[0]) => Promise<void>;
+  /** `password` is required when the account has one. */
+  deleteAccount: (password?: string) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -70,6 +75,26 @@ export const useAuth = create<AuthState>()((set) => ({
     await wipeLocalData();
     await authService.signUp(input);
     set({ status: 'signedIn' });
+  },
+
+  signInWithGoogle: async () => {
+    await wipeLocalData();
+    const user = await authService.signInWithGoogle();
+    if (!user) return false;
+    set({ status: 'signedIn' });
+    return true;
+  },
+
+  resetPassword: async (input) => {
+    await wipeLocalData();
+    await authService.resetPassword(input);
+    set({ status: 'signedIn' });
+  },
+
+  deleteAccount: async (password) => {
+    await authService.deleteAccount(password);
+    await wipeLocalData();
+    set({ status: 'signedOut' });
   },
 
   signOut: async () => {

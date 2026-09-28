@@ -7,6 +7,8 @@ export default function SettingsLayout() {
   return (
     <Stack screenOptions={screenOptions}>
       <Stack.Screen name="index" options={{ title: 'Settings' }} />
+      <Stack.Screen name="username" options={{ title: 'Username' }} />
+      <Stack.Screen name="delete-account" options={{ title: 'Delete account' }} />
     </Stack>
   );
 }

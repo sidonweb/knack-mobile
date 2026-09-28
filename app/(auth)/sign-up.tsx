@@ -7,6 +7,7 @@ import { Button } from '@/components/button';
 import { Text } from '@/components/text';
 import { TextField } from '@/components/text-field';
 import { AuthShell } from '@/features/auth/components/auth-shell';
+import { GoogleSignIn } from '@/features/auth/components/google-sign-in';
 import { haptics } from '@/lib/haptics';
 import { ApiError, errorMessage } from '@/services/api/errors';
 import { useAuth } from '@/store/auth';
@@ -116,6 +117,7 @@ export default function SignUpScreen() {
         </Text>
       ) : null}
       <Button label="Create account" onPress={submit} loading={submitting} className="mt-2" />
+      <GoogleSignIn />
     </AuthShell>
   );
 }
